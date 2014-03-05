@@ -11,8 +11,7 @@ except ImportError:
     sys.exit(1)
 
 
-ROOT = sys.argv[1]
-DEST = sys.argv[2]
+SCRIPT, ROOT, DEST = sys.argv
 
 specs = [
     {"size": 1024,"name": "iTunesArtwork@2x.png"},

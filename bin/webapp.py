@@ -11,7 +11,7 @@ except ImportError:
     sys.exit(error)
 
 
-script, root, dest = sys.argv
+SCRIPT, ROOT, DEST = sys.argv
 
 specs = [{
     "src": "chrome.png",
@@ -29,7 +29,7 @@ specs = [{
 
 for spec in specs:
     try:
-        src_file = Image.open(os.path.join(root, spec["src"]))
+        src_file = Image.open(os.path.join(ROOT, spec["src"]))
     except IOError:
         error = "ERROR: %s failed to load. Exiting." % spec["src"]
         sys.exit(error)
@@ -53,7 +53,7 @@ begin_time = datetime.datetime.now()
 for spec in specs:
     icon_prefix = "%s-icon" % spec["prefix"]
 
-    fullcolored = Image.open(os.path.join(root, spec["src"]))
+    fullcolored = Image.open(os.path.join(ROOT, spec["src"]))
     desaturated = fullcolored.convert("LA")
 
     for size in spec["sizes"]:
@@ -65,11 +65,11 @@ for spec in specs:
         else:
             icon_name += ".png"
 
-        prod = fullcolored.resize(icon_size, Image.ANTIALIAS)
-        stag = desaturated.resize(icon_size, Image.ANTIALIAS)
+        full = fullcolored.resize(icon_size, Image.ANTIALIAS)
+        grey = desaturated.resize(icon_size, Image.ANTIALIAS)
 
-        prod.save(os.path.join(dest, "original", icon_name))
-        stag.save(os.path.join(dest, "greyscale", icon_name))
+        full.save(os.path.join(DEST, "original", icon_name))
+        grey.save(os.path.join(DEST, "greyscale", icon_name))
 
         made_count += 3
 
@@ -77,7 +77,7 @@ for spec in specs:
 print "Running optimization..."
 
 imgoptim_path = "/Applications/ImageOptim.app/Contents/MacOS/ImageOptim"
-dist_path = dest + "/*/*.png"
+dist_path = DEST + "/*/*.png"
 shell_cmd = "%s 2>/dev/null %s" % (imgoptim_path, dist_path)
 
 subprocess.Popen(shell_cmd,
