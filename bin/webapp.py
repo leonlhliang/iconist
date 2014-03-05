@@ -7,7 +7,7 @@ import subprocess
 try:
     import Image
 except ImportError:
-    error = "ERROR: Failed importing PIL. Exiting."
+    error = "Failed importing PIL"
     sys.exit(error)
 
 
@@ -31,14 +31,15 @@ for spec in specs:
     try:
         src_file = Image.open(os.path.join(ROOT, spec["src"]))
     except IOError:
-        error = "ERROR: %s failed to load. Exiting." % spec["src"]
+        error = "Failed to load %s" % spec["src"]
         sys.exit(error)
 
     spec_size = spec["sizes"][0]
 
     if (spec_size, spec_size) != src_file.size:
-        error = "ERROR: %s should be %sx%s, got %sx%s. Aborted." % (
-            spec["src"], spec_size, src_file.size[0], src_file.size[1])
+        error = "%s should be %sx%s, got %sx%s" % (
+            spec["src"], spec_size, src_file.size[0], src_file.size[1]
+        )
         sys.exit(error)
     else:
         print "Verified %s" % spec["src"]

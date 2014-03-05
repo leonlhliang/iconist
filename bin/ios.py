@@ -7,8 +7,8 @@ import subprocess
 try:
     import Image
 except ImportError:
-    print "ERROR: Failed importing PIL. Exiting."
-    sys.exit(1)
+    error = "Failed importing PIL"
+    sys.exit(error)
 
 
 SCRIPT, ROOT, DEST = sys.argv
@@ -39,15 +39,16 @@ source_name = specs[0]["name"]
 try:
     source = Image.open(os.path.join(ROOT, source_name))
 except IOError:
-    print "ERROR: Cannot load source file. Exiting."
-    sys.exit(1)
+    error = "Cannot load source file"
+    sys.exit(error)
 
 source_size = specs[0]["size"]
 
 if source.size != (source_size, source_size):
-    print "ERROR: Wrong source file dimension: (%s, %s)" % (
-        source.size[0], source.size[1])
-    sys.exit(1)
+    error = "Wrong source file dimension: (%s, %s)" % (
+        source.size[0], source.size[1]
+    )
+    sys.exit(error)
 else:
     print "Source file: %s verified" % source_name
     pass
