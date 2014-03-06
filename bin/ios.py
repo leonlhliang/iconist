@@ -71,8 +71,8 @@ for index, spec in enumerate(specs):
 
     resized = source.resize((spec["size"], spec["size"]), Image.ANTIALIAS)
     resized.save(dest_path)
-    count += 1
 
+    count += 1
     print "Made %s" % spec["name"]
 
 
@@ -90,7 +90,8 @@ subprocess.Popen(
 
 duration = datetime.datetime.now() - begin_time
 
-print "Done. Made %s icons in %s.%s sec." % (
-    count, duration.seconds, duration.microseconds)
+print "Made %s icons in %s.%s sec" % (
+    count, duration.seconds, duration.microseconds
+)
 
 sys.exit(0)
