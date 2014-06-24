@@ -14,17 +14,21 @@ except ImportError:
 SCRIPT, ROOT, DEST = sys.argv
 
 specs = [{
-    "src": "chrome.png",
     "prefix": "droid",
-    "sizes": [196, 128]
+    "sizes": [196, 128],
+    "src": "chrome.png"
 }, {
-    "src": "safari.png",
     "prefix": "apple",
-    "sizes": [152, 144, 120, 114, 76, 72, 57]
+    "sizes": [152, 144, 120, 114, 76, 72, 57],
+    "src": "safari.png"
 }, {
-    "src": "firefox.png",
     "prefix": "gecko",
-    "sizes": [128, 60, 30]
+    "sizes": [128, 60, 30],
+    "src": "firefox.png"
+}, {
+    "prefix": "fav",
+    "sizes": [64, 16],
+    "src": "favicon.png"
 }]
 
 for spec in specs:
