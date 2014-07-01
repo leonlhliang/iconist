@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-import os
-import sys
-import datetime
 import subprocess
+import datetime
+import sys
+import os
 
 try:
-    import Image
+    from PIL import Image
 except ImportError:
     error = "Failed importing PIL"
     sys.exit(error)
@@ -13,33 +13,69 @@ except ImportError:
 
 SCRIPT, ROOT, DEST = sys.argv
 
-specs = [
-    {"size": 1024,"name": "iTunesArtwork@2x.png"},
-    {"size": 512, "name": "iTunesArtwork.png"},
-    {"size": 152, "name": "AppIcon76x76@2x~ipad.png"},
-    {"size": 76,  "name": "AppIcon76x76~ipad.png"},
-    {"size": 144, "name": "AppIcon72x72@2x~ipad.png"},
-    {"size": 72,  "name": "AppIcon72x72~ipad.png"},
-    {"size": 120, "name": "AppIcon60x60@2x.png"},
-    {"size": 114, "name": "AppIcon57x57@2x.png"},
-    {"size": 57,  "name": "AppIcon57x57.png"},
-    {"size": 100, "name": "AppIcon50x50@2x~ipad.png"},
-    {"size": 50,  "name": "AppIcon50x50~ipad.png"},
-    {"size": 80,  "name": "AppIcon40x40@2x.png"},
-    {"size": 80,  "name": "AppIcon40x40@2x~ipad.png"},
-    {"size": 40,  "name": "AppIcon40x40~ipad.png"},
-    {"size": 58,  "name": "AppIcon29x29@2x.png"},
-    {"size": 29,  "name": "AppIcon29x29.png"},
-    {"size": 58,  "name": "AppIcon29x29@2x~ipad.png"},
-    {"size": 29,  "name": "AppIcon29x29~ipad.png"}
-]
+specs = [{
+    "name": "iTunesArtwork@2x.png",
+    "size": 1024
+}, {
+    "name": "iTunesArtwork.png",
+    "size": 512
+}, {
+    "name": "AppIcon76x76@2x~ipad.png",
+    "size": 152
+}, {
+    "name": "AppIcon76x76~ipad.png",
+    "size": 76
+}, {
+    "name": "AppIcon72x72@2x~ipad.png",
+    "size": 144
+}, {
+    "name": "AppIcon72x72~ipad.png",
+    "size": 72
+}, {
+    "name": "AppIcon60x60@2x.png",
+    "size": 120
+}, {
+    "name": "AppIcon57x57@2x.png",
+    "size": 114
+}, {
+    "name": "AppIcon57x57.png",
+    "size": 57
+}, {
+    "name": "AppIcon50x50@2x~ipad.png",
+    "size": 100
+}, {
+    "name": "AppIcon50x50~ipad.png",
+    "size": 50
+}, {
+    "name": "AppIcon40x40@2x~ipad.png",
+    "size": 80
+}, {
+    "name": "AppIcon40x40~ipad.png",
+    "size": 40
+}, {
+    "name": "AppIcon40x40@2x.png",
+    "size": 80
+}, {
+    "name": "AppIcon29x29@2x~ipad.png",
+    "size": 58
+}, {
+    "name": "AppIcon29x29~ipad.png",
+    "size": 29
+}, {
+    "name": "AppIcon29x29@2x.png",
+    "size": 58
+}, {
+    "name": "AppIcon29x29.png",
+    "size": 29
+}]
 
 source_name = specs[0]["name"]
+source_path = os.path.join(ROOT, source_name)
 
 try:
-    source = Image.open(os.path.join(ROOT, source_name))
+    source = Image.open(source_path)
 except IOError:
-    error = "Cannot load source file"
+    error = "Cannot load source file: %s" % source_path
     sys.exit(error)
 
 source_size = specs[0]["size"]

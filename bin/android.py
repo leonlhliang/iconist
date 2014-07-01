@@ -1,42 +1,50 @@
 #!/usr/bin/env python
-import os
-import sys
-import datetime
 import subprocess
+import datetime
+import sys
+import os
 
 try:
-    import Image
+    from PIL import Image
 except ImportError:
     error = "Failed importing PIL"
     sys.exit(error)
 
 
-SCRIPT, ROOT, DEST = sys.argv
+SCRIPT, SOURCE, DEST = sys.argv
 
-specs = [
-    {"name": "xxxhdpi", "size": 192},
-    {"name": "xxhdpi",  "size": 144},
-    {"name": "xhdpi",   "size": 96},
-    {"name": "hdpi",    "size": 72},
-    {"name": "mdpi",    "size": 48},
-    {"name": "ldpi",    "size": 36}
-]
+specs = [{
+    "name": "xxhdpi",
+    "size": 144
+}, {
+    "name": "xhdpi",
+    "size": 96
+}, {
+    "name": "hdpi",
+    "size": 72
+}, {
+    "name": "mdpi",
+    "size": 48
+}, {
+    "name": "ldpi",
+    "size": 36
+}]
 
-file_name = "icon.png"
+file_name = "ic_launcher.png"
 
 try:
-    src = Image.open(os.path.join(ROOT, file_name))
+    src = Image.open(SOURCE)
 except IOError:
-    error = "Cannot load source file: %s" % os.path.join(ROOT, file_name)
+    error = "Cannot load source file: %s" % SOURCE
     sys.exit(error)
 
-original_size = 196
+original_size = 512
 
 if src.size != (original_size, original_size):
     error = "Wrong source dimension: (%s, %s)" % (src.size[0], src.size[1])
     sys.exit(error)
 else:
-    print "Source file: %s verified" % file_name
+    print "Source file: %s verified" % SOURCE
     pass
 
 
