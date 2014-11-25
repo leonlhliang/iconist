@@ -1,54 +1,41 @@
 #!/usr/bin/env python
-import subprocess
-import datetime
-import sys
-import os
+import subprocess, datetime, sys, os
+
 
 try:
     from PIL import Image
 except ImportError:
-    error = "Failed importing PIL"
-    sys.exit(error)
+    sys.exit("Cannot import PIL")
 
 
 SCRIPT, SOURCE, DEST = sys.argv
 
-specs = [{
-    "name": "xxhdpi",
-    "size": 144
-}, {
-    "name": "xhdpi",
-    "size": 96
-}, {
-    "name": "hdpi",
-    "size": 72
-}, {
-    "name": "mdpi",
-    "size": 48
-}, {
-    "name": "ldpi",
-    "size": 36
-}]
+specs = [
+    {"name": "xxxhdpi", "size": 192},
+    {"name": "xxhdpi", "size": 144},
+    {"name": "xhdpi", "size": 96},
+    {"name": "hdpi", "size": 72},
+    {"name": "mdpi", "size": 48},
+    {"name": "ldpi", "size": 36}
+]
 
 file_name = "ic_launcher.png"
 
 try:
     src = Image.open(SOURCE)
 except IOError:
-    error = "Cannot load source file: %s" % SOURCE
-    sys.exit(error)
+    sys.exit("Cannot load source: %s" % SOURCE)
 
 original_size = 512
 
 if src.size != (original_size, original_size):
-    error = "Wrong source dimension: (%s, %s)" % (src.size[0], src.size[1])
-    sys.exit(error)
+    sys.exit("Invalid source size: (%s, %s)" % (src.size[0], src.size[1]))
 else:
-    print "Source file: %s verified" % SOURCE
     pass
 
 
-print "Begin making..."
+print "Begin..."
+
 begin_time = datetime.datetime.now()
 count = 0
 
@@ -60,25 +47,20 @@ for spec in specs:
     resized.save(dest_path)
 
     count += 1
-    print "Made %s" % spec["name"]
 
 
-print "Running optimization..."
+print "Optimizing..."
 
-imgoptim_path = "/Applications/ImageOptim.app/Contents/MacOS/ImageOptim"
+optimizer_path = "/Applications/ImageOptim.app/Contents/MacOS/ImageOptim"
 dist_path = DEST + "/**.png"
-shell_cmd = "%s 2>/dev/null %s" % (imgoptim_path, dist_path)
 
-subprocess.Popen(
-    shell_cmd,
-    shell=True,
-    stdout=subprocess.PIPE
+subprocess.Popen("%s 2>/dev/null %s" % (optimizer_path, dist_path),
+    stdout=subprocess.PIPE,
+    shell=True
 ).communicate()
 
-duration = datetime.datetime.now() - begin_time
+cost = datetime.datetime.now() - begin_time
 
-print "Made %s icons in %s.%s sec" % (
-    count, duration.seconds, duration.microseconds
-)
+print "%s icons, %s.%s seconds." % (count, cost.seconds, cost.microseconds)
 
 sys.exit(0)
